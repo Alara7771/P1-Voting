@@ -93,6 +93,7 @@ class Vote(QMainWindow, Ui_Voting):
         box.setText("---Results---")
         box.setText(f"{self.rad_1.text()} | {self.rad_2.text()}")
         box.setText(winner)
+        box.exec()
 
 
 
