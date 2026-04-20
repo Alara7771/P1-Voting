@@ -7,6 +7,10 @@ class Vote(QMainWindow, Ui_Voting):
         self.setupUi(self)
 
 
+        self.vote_option = ""
+
+        self.rad_1.setText("John")
+        self.rad_2.setText("Jane ")
 
         self.voter_list = []
 
@@ -32,17 +36,19 @@ class Vote(QMainWindow, Ui_Voting):
                     raise TypeError
 
             if age < 18:
-                self.main_label.setText("Must be 18 or older")
+                return self.main_label.setText("Must be 18 or older")
 
 
 
             if self.rad_1.isChecked():
                 self.candidate_1_vote +=1
-                self.main_label.setText("You voted for John!")
+                self.vote_option = self.rad_1.text()
+                self.main_label.setText(f"You voted for {self.rad_1.text()}!")
 
             elif self.rad_2.isChecked():
                 self.candidate_2_vote +=1
-                self.main_label.setText("You voted for Jane!")
+                self.vote_option = self.rad_2.text()
+                self.main_label.setText(f"You voted for {self.rad_2.text()}!")
 
             else:
                 self.main_label.setText("Select a candidate")
@@ -53,6 +59,7 @@ class Vote(QMainWindow, Ui_Voting):
             self.main_label.setText("Name cannot contain numbers")
 
         self.voter_list.append([self.first_name.text(), self.Last_name.text(), self.age_entry.text()])
+
 
 
 
