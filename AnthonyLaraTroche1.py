@@ -1,4 +1,4 @@
-from PyQt6.QtWidgets import QMainWindow, QApplication
+from PyQt6.QtWidgets import QMainWindow
 from gui import *
 class Vote(QMainWindow, Ui_Voting):
 
@@ -6,13 +6,9 @@ class Vote(QMainWindow, Ui_Voting):
         super().__init__()
         self.setupUi(self)
 
-        self.age = self.age_entry
-        self.first = self.first_name
-        self.second = self.Last_name
 
-        self.first_list = []
-        self.second_list = []
-        self.age_list = []
+
+        self.voter_list = []
 
         self.candidate_1_vote = 0
         self.candidate_2_vote = 0
@@ -21,21 +17,21 @@ class Vote(QMainWindow, Ui_Voting):
 
     def check(self):
         try:
-            age = self.age
-            first_name = self.first
-            last_name = self.second
+            first_name = self.first_name.text()
+            last_name = self.Last_name.text()
+            age = int(self.age_entry.text())
 
-            age = int(age)
+
+
+
+            for letter in first_name:
+                if letter.isdigit():
+                    raise TypeError
+            for letter in last_name:
+                if letter.isdigit():
+                    raise TypeError
+
             if age < 18:
-                self.main_label.setText("Must be 18 or older")
-
-            for let in first_name:
-                if let.isdigit():
-                    raise TypeError
-            for let in last_name:
-                if let.isdigit():
-                    raise TypeError
-            if self.age < 18:
                 self.main_label.setText("Must be 18 or older")
 
 
@@ -52,13 +48,13 @@ class Vote(QMainWindow, Ui_Voting):
                 self.main_label.setText("Select a candidate")
 
         except ValueError:
-            self.main_label.setText("Enter age integer")
+            self.main_label.setText("Enter age as a number")
         except TypeError:
-            self.main_label.setText("Name cannot have numbers")
+            self.main_label.setText("Name cannot contain numbers")
 
-        self.first_list.append(self.first)
-        self.second_list.append(self.second)
-        self.age_list.append(self.age)
+        self.voter_list.append([self.first_name.text(), self.Last_name.text(), self.age_entry.text()])
+
+
 
 
 
