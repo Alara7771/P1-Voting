@@ -1,5 +1,5 @@
 from AnthonyLaraTroche1 import *
-
+from PyQt6.QtWidgets import QApplication
 def main():
     application = QApplication([])
     window = Vote()
