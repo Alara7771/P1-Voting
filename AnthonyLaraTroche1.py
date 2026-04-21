@@ -21,21 +21,45 @@ class Vote(QMainWindow, Ui_Voting):
 
     def check(self):
         try:
-            self.age = int(self.age.text())
+            age = self.age
+            first_name = self.first
+            last_name = self.second
 
-            for let in self.first:
+            age = int(age)
+            if age < 18:
+                self.main_label.setText("Must be 18 or older")
+
+            for let in first_name:
                 if let.isdigit():
                     raise TypeError
-            for let in self.second:
+            for let in last_name:
                 if let.isdigit():
                     raise TypeError
             if self.age < 18:
                 self.main_label.setText("Must be 18 or older")
 
+
+
+            if self.rad_1.isChecked():
+                self.candidate_1_vote +=1
+                self.main_label.setText("You voted for John!")
+
+            elif self.rad_2.isChecked():
+                self.candidate_2_vote +=1
+                self.main_label.setText("You voted for Jane!")
+
+            else:
+                self.main_label.setText("Select a candidate")
+
         except ValueError:
             self.main_label.setText("Enter age integer")
         except TypeError:
             self.main_label.setText("Name cannot have numbers")
+
+        self.first_list.append(self.first)
+        self.second_list.append(self.second)
+        self.age_list.append(self.age)
+
 
 
 
