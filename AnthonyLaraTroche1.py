@@ -12,6 +12,7 @@ class Vote(QMainWindow, Ui_Voting):
 
         self.rad_1.setText("John")
         self.rad_2.setText("Jane ")
+        self.label_3.setText("Vote ID")
 
         self.voter_list = []
 
@@ -25,9 +26,10 @@ class Vote(QMainWindow, Ui_Voting):
         try:
             first_name = self.first_name.text()
             last_name = self.Last_name.text()
-            age = int(self.age_entry.text())
+            id_num = self.age_entry.text()
 
-
+            if first_name == "" or last_name == "" or id_num == "":
+                return self.main_label.setText("Please enter all fields")
 
 
             for letter in first_name:
@@ -37,9 +39,12 @@ class Vote(QMainWindow, Ui_Voting):
                 if letter.isdigit():
                     raise TypeError
 
-            if age < 18:
-                return self.main_label.setText("Must be 18 or older")
+            if len(id_num) != 5:
+                return self.main_label.setText("Vote ID must be 5 digits")
 
+            for candidate in self.voter_list:
+                if candidate[2] == id_num:
+                    return self.main_label.setText("Vote ID already exists")
 
 
             if self.rad_1.isChecked():
@@ -55,24 +60,29 @@ class Vote(QMainWindow, Ui_Voting):
             else:
                 self.main_label.setText("Select a candidate")
 
+
+
+            self.voter_list.append([self.first_name.text(), self.Last_name.text(), self.age_entry.text(), self.vote_option])
+
+            self.first_name.clear()
+            self.Last_name.clear()
+            self.age_entry.clear()
+
+            self.rad_1.setAutoExclusive(False)
+            self.rad_1.setChecked(False)
+            self.rad_2.setChecked(False)
+            self.rad_1.setAutoExclusive(True)
+
         except ValueError:
-            self.main_label.setText("Enter age as a number")
+            self.main_label.setText("ID must be a number")
         except TypeError:
             self.main_label.setText("Name cannot contain numbers")
 
-        self.voter_list.append([self.first_name.text(), self.Last_name.text(), self.age_entry.text(), self.vote_option])
 
-        self.first_name.clear()
-        self.Last_name.clear()
-        self.age_entry.clear()
-
-        self.rad_1.setAutoExclusive(False)
-        self.rad_1.setChecked(False)
-        self.rad_2.setChecked(False)
-        self.rad_1.setAutoExclusive(True)
     def finish(self):
         if len(self.voter_list) == 0:
             return self.main_label.setText("There are no votes")
+
 
 
         with open("results.csv", "w", newline="" ) as csvfile:
@@ -82,17 +92,15 @@ class Vote(QMainWindow, Ui_Voting):
 
         self.close()
         if self.candidate_1_vote > self.candidate_2_vote:
-            winner = f"Winner: {self.rad_1.text()}"
+            winner = f"        {str(self.candidate_1_vote)}|{str(self.candidate_2_vote)}\nWinner: {self.rad_1.text()}"
         elif self.candidate_2_vote > self.candidate_1_vote:
-            winner = f"Winner: {self.rad_2.text()}"
+            winner = f"        {str(self.candidate_1_vote)}|{str(self.candidate_2_vote)}\nWinner: {self.rad_2.text()}"
         else:
             winner = "It's tied"
 
         box = QMessageBox()
         box.setWindowTitle("Voting Results")
-        box.setText("---Results---")
-        box.setText(f"{self.rad_1.text()} | {self.rad_2.text()}")
-        box.setText(winner)
+        box.setText(f"---Results---\n{self.rad_1.text()} | {self.rad_2.text()}\n{winner}")
         box.exec()
 
 
