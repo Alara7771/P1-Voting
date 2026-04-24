@@ -39,6 +39,10 @@ class Vote(QMainWindow, Ui_Voting):
                 if letter.isdigit():
                     raise TypeError
 
+
+            for num in id_num:
+                if not num.isdigit():
+                    return self.main_label.setText("Enter digits no characters")
             if len(id_num) != 5:
                 return self.main_label.setText("Vote ID must be 5 digits")
 
@@ -58,8 +62,7 @@ class Vote(QMainWindow, Ui_Voting):
                 self.main_label.setText(f"You voted for {self.rad_2.text()}!")
 
             else:
-                self.main_label.setText("Select a candidate")
-
+                return self.main_label.setText("Select a candidate")
 
 
             self.voter_list.append([self.first_name.text(), self.Last_name.text(), self.age_entry.text(), self.vote_option])
@@ -74,9 +77,9 @@ class Vote(QMainWindow, Ui_Voting):
             self.rad_1.setAutoExclusive(True)
 
         except ValueError:
-            self.main_label.setText("ID must be a number")
+            return self.main_label.setText("ID must be a number")
         except TypeError:
-            self.main_label.setText("Name cannot contain numbers")
+            return self.main_label.setText("Name cannot contain numbers")
 
 
     def finish(self):
@@ -90,7 +93,7 @@ class Vote(QMainWindow, Ui_Voting):
             writer.writerow(["first_name", "last_name", "age", "Candidate"])
             writer.writerows(self.voter_list)
 
-        self.close()
+
         if self.candidate_1_vote > self.candidate_2_vote:
             winner = f"        {str(self.candidate_1_vote)}|{str(self.candidate_2_vote)}\nWinner: {self.rad_1.text()}"
         elif self.candidate_2_vote > self.candidate_1_vote:
@@ -102,7 +105,7 @@ class Vote(QMainWindow, Ui_Voting):
         box.setWindowTitle("Voting Results")
         box.setText(f"---Results---\n{self.rad_1.text()} | {self.rad_2.text()}\n{winner}")
         box.exec()
-
+        self.close()
 
 
 
