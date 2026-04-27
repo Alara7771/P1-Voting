@@ -2,8 +2,15 @@ from PyQt6.QtWidgets import QMainWindow, QMessageBox
 from gui import *
 import csv
 class Vote(QMainWindow, Ui_Voting):
+    """
+    This class contains the processes behind voting and
+    ending the vote
+    """
 
-    def __init__(self):
+    def __init__(self) -> None:
+        """
+        setting up variables,easy access changes, and lists
+        """
         super().__init__()
         self.setupUi(self)
 
@@ -12,6 +19,7 @@ class Vote(QMainWindow, Ui_Voting):
 
         self.rad_1.setText("John")
         self.rad_2.setText("Jane ")
+
         self.label_3.setText("Vote ID")
 
         self.voter_list = []
@@ -22,7 +30,14 @@ class Vote(QMainWindow, Ui_Voting):
         self.send_vote.clicked.connect(lambda : self.check())
         self.finish_vote.clicked.connect(lambda : self.finish())
 
-    def check(self):
+    def check(self)-> None:
+        """
+        Takes voter input and ensures its correct and all fields are
+        filled once vote is sent it's stored in a list and watches for duplicate
+        entries
+
+        """
+
         try:
             first_name = self.first_name.text()
             last_name = self.Last_name.text()
@@ -31,12 +46,15 @@ class Vote(QMainWindow, Ui_Voting):
             if first_name == "" or last_name == "" or id_num == "":
                 return self.main_label.setText("Please enter all fields")
 
-
             for letter in first_name:
-                if letter.isdigit():
+                if letter.isalpha():
+                    continue
+                else:
                     raise TypeError
             for letter in last_name:
-                if letter.isdigit():
+                if letter.isalpha():
+                    continue
+                else:
                     raise TypeError
 
 
@@ -82,7 +100,12 @@ class Vote(QMainWindow, Ui_Voting):
             return self.main_label.setText("Name cannot contain numbers")
 
 
-    def finish(self):
+    def finish(self) -> None:
+        """
+        Checks that there are votes, sends to csv file, checks who won
+        then the main window is closed and a popup appears with what number
+        of votes that each side had and who the winner was
+        """
         if len(self.voter_list) == 0:
             return self.main_label.setText("There are no votes")
 
