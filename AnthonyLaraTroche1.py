@@ -113,7 +113,7 @@ class Vote(QMainWindow, Ui_Voting):
 
         with open("results.csv", "w", newline="" ) as csvfile:
             writer = csv.writer(csvfile)
-            writer.writerow(["first_name", "last_name", "age", "Candidate"])
+            writer.writerow(["First name", "Last name", "Voter ID", "Candidate"])
             writer.writerows(self.voter_list)
 
 
