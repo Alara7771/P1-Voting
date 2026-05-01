@@ -89,7 +89,7 @@ class Vote(QMainWindow, Ui_Voting):
             self.Last_name.clear()
             self.age_entry.clear()
 
-            self.rad_1.setAutoExclusive(False)
+            self.rad_1.setAutoExclusive(False)  #used AI to figure out how to uncheck radio buttons
             self.rad_1.setChecked(False)
             self.rad_2.setChecked(False)
             self.rad_1.setAutoExclusive(True)
